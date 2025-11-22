@@ -38,14 +38,21 @@
 # insert_patient_data('Nitish', '30')
 
 
-from pydantic import BaseModel
+from pydantic import BaseModel, EmailStr, AnyUrl
+from typing import List, Dict, Optional
 
 class Patient(BaseModel):
 
   # Schema
+  # By default every field is required
   name: str
+  email: EmailStr # used to validate email format
+  linkedin_url: AnyUrl
   age: int
-  # weight: float
+  weight: float
+  married: bool
+  allergies: Optional[List[str]] = None # this validates that it is a list as well as all the items are strings. Now this is a optional field. An optional field by default requires a None value in case the field is not described
+  contact_details: Dict[str, str]
 
 def insert_patient_data(patient: Patient):
 
@@ -53,8 +60,16 @@ def insert_patient_data(patient: Patient):
   print(patient.age)
   print('inserted into database')
 
-patient_info = {'name': 'nitish', 'age': '30'}
+def update_patient_data(patient: Patient):
+
+  print(patient.name)
+  print(patient.age)
+  print(patient.allergies)
+  print(patient.married)
+  print('updated')
+
+patient_info = {'name': 'nitish', 'age': '30','email': 'abc@gmail.com', 'weight': 75.2, 'married': True, 'allergies': ['pollen', 'dust'],'linkedin_url': 'http://linkedin.com/1322', 'contact_details': {'phone': '23451245'}}
 
 patient1 = Patient(**patient_info)
 
-insert_patient_data(patient1)
+update_patient_data(patient1)
