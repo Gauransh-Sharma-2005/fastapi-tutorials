@@ -38,20 +38,20 @@
 # insert_patient_data('Nitish', '30')
 
 
-from pydantic import BaseModel, EmailStr, AnyUrl
-from typing import List, Dict, Optional
+from pydantic import BaseModel, EmailStr, AnyUrl, Field
+from typing import List, Dict, Optional, Annotated
 
 class Patient(BaseModel):
 
   # Schema
   # By default every field is required
-  name: str
+  name: Annotated[str, Field(max_length=50, title='Name of the patient', description='Give the name of the patient in less than 50 characters', examples=['Nitish', 'Ansh'])]  # str = Field(max_length=50)
   email: EmailStr # used to validate email format
   linkedin_url: AnyUrl
-  age: int
-  weight: float
-  married: bool
-  allergies: Optional[List[str]] = None # this validates that it is a list as well as all the items are strings. Now this is a optional field. An optional field by default requires a None value in case the field is not described
+  age: int = Field(gt=0, lt=110)
+  weight: Annotated[float,Field(gt=0, strict= True)]  # Field is used to add custom validation by applying a constraint. Field can also be used to add metadata with 'Annotated' module. Field can also be used to add default values. strict prevents type coercion(converting string to int).
+  married: Annotated[bool, Field(default=None, description='Marital status')]
+  allergies: Annotated[Optional[List[str]], Field(default= None,max_length=5)]  # this validates that it is a list as well as all the items are strings. Now this is a optional field. An optional field by default requires a None value in case the field is not described
   contact_details: Dict[str, str]
 
 def insert_patient_data(patient: Patient):
