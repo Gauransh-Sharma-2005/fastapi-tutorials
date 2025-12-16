@@ -14,3 +14,11 @@ A beginner-to-intermediate FastAPI tutorial repository covering the fundamentals
   8. CRUD operations
   9. Connecting FastAPI with databases (basic examples)
   10. API testing using Swagger UI
+
+🛠️ Tech Stack
+
+  1. Python 3.9+
+  2. FastAPI
+  3. Uvicorn (ASGI server)
+  4. Pydantic
+
